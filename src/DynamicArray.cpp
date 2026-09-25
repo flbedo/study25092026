@@ -16,14 +16,12 @@ DynamicArray::~DynamicArray() {
 void DynamicArray::set(std::size_t index, int value) {
     if (index >= size)
     {
-        std::cout << "Index out of range";
-        return;
+        throw std::out_of_range("Index out of range");
     }
 
     if (value < -100 || value > 100)
     {
-        std::cout << "Value out of range";
-        return;
+        throw std::invalid_argument("Value out of range");
     }
 
     this->data[index] = value;
@@ -32,8 +30,7 @@ void DynamicArray::set(std::size_t index, int value) {
 int DynamicArray::get(std::size_t index) const {
     if (index >= size)
     {
-        std::cout << "Index out of range";
-        return -101;
+        throw std::out_of_range("Index out of range");
     }   
 
     return this->data[index];
@@ -61,8 +58,7 @@ DynamicArray::DynamicArray(const DynamicArray& other) {
 void DynamicArray::pushBack(int value)
 {
     if (value < -100 || value > 100) {
-        std::cout << "Value out of range";
-        return;
+        throw std::invalid_argument("Value out of range");
     }
 
     int* newData = new int[this->size + 1]; // Создаем новый массив с увеличенным размером

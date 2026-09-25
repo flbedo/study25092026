@@ -1,95 +1,47 @@
-#include <iostream>
 #include "DynamicArray.h"
 
-int main()
-{
+#include <iostream>
+#include <stdexcept>
+#include <string>
+#include <typeinfo>
 
-    std::cout << "Task 1\n";
+int main() {
+    std::cout << "Numeric arrays\n";
 
-    DynamicArray a(3);
+    DynamicArray<int> first(3);
+    first.set(0, 10);
+    first.set(1, 20);
+    first.set(2, 30);
 
-    a.set(0, 10);
-    a.set(1, 20);
-    a.set(2, 30);
+    DynamicArray<int> second(3);
+    second.set(0, 13);
+    second.set(1, 24);
+    second.set(2, 30);
 
-    std::cout << "Array A: ";
-    a.print();
+    std::cout << "First:  " << first << '\n';
+    std::cout << "Second: " << second << '\n';
+    std::cout << "Euclidean distance: " << first.distance(second) << "\n\n";
 
-    std::cout << "Element at index 1: " << a.get(1) << '\n';
+    try {
+        first.set(0, 150);
+    } catch (const std::invalid_argument& error) {
+        std::cout << "Integer validation: " << error.what() << "\n\n";
+    }
 
-    std::cout << "Task 2\n";
+    std::cout << "Non-numeric arrays\n";
 
-    DynamicArray b(a);
+    DynamicArray<std::string> words(2);
+    words.set(0, "template");
+    words.set(1, "array");
 
-    std::cout << "Original A: ";
-    a.print();
+    DynamicArray<std::string> otherWords(words);
+    std::cout << "Words: " << words << '\n';
 
-    std::cout << "Copy B: ";
-    b.print();
-
-    b.set(0, 50);
-
-    std::cout << "A after changing B: ";
-    a.print();
-
-    std::cout << "Changed B: ";
-    b.print();
-
-
-
-    std::cout << "Task 3\n";
-
-    std::cout << "Before: ";
-    b.print();
-
-    b.pushBack(40);
-
-    std::cout << "After pushBack(40): ";
-    b.print();
-
-
-    std::cout << "Task 4\n";
-
-    std::cout << "A: ";
-    a.print();
-
-    std::cout << "B: ";
-    b.print();
-
-    a.add(b);
-
-    std::cout << "A + B: ";
-    a.print();
-
-    a.sub(b);
-
-    std::cout << "A - B: ";
-    a.print();
-
-
-    std::cout << "Different Sizes\n";
-
-    DynamicArray c(2);
-
-    c.set(0, 5);
-    c.set(1, 10);
-
-    std::cout << "A: ";
-    a.print();
-
-    std::cout << "C: ";
-    c.print();
-
-    a.add(c);
-
-    std::cout << "A + C: ";
-    a.print();
-
-    std::cout << "Error Handling\n";
-
-    a.set(100, 10);  // Неверный индекс
-    a.set(0, 150);   // Значение больше 100
-    a.pushBack(-150); // Значение меньше -100
+    try {
+        words.distance(otherWords);
+    } catch (const std::bad_typeid& error) {
+        std::cout << "Distance error: " << error.what() << '\n';
+    }
 
     return 0;
 }

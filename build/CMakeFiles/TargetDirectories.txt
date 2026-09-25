@@ -1,0 +1,3 @@
+/home/flbedo/Code_Projects/study2/study25092026/build/CMakeFiles/main.dir
+/home/flbedo/Code_Projects/study2/study25092026/build/CMakeFiles/edit_cache.dir
+/home/flbedo/Code_Projects/study2/study25092026/build/CMakeFiles/rebuild_cache.dir

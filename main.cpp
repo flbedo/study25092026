@@ -2,6 +2,11 @@
 
 #include <iostream>
 #include <string>
+#include <utility>
+
+void printByValue(DynamicArray<int> array) {
+    std::cout << "Inside function: " << array << '\n';
+}
 
 int main() {
     DynamicArray<int> a(3);
@@ -59,4 +64,26 @@ int main() {
     } catch (const std::bad_typeid& error) {
         std::cout << error.what() << '\n';
     }
+
+    DynamicArray<int> assigned(1);
+    DynamicArray<int> chained(1);
+    chained = assigned = a;
+    assigned = assigned;
+    std::cout << "Copy assignment: " << assigned << '\n';
+    std::cout << "Chained assignment: " << chained << '\n';
+
+    DynamicArray<int> copySource(a);
+    std::cout << "Before copy: " << copySource << '\n';
+    printByValue(copySource);
+    std::cout << "After copy: " << copySource << '\n';
+
+    DynamicArray<int> moveSource(a);
+    std::cout << "Before move: " << moveSource << '\n';
+    printByValue(std::move(moveSource));
+    std::cout << "After move: " << moveSource << '\n';
+
+    DynamicArray<int> moveAssigned(1);
+    moveAssigned = std::move(assigned);
+    std::cout << "Move assignment: " << moveAssigned << '\n';
+    std::cout << "Moved-from source: " << assigned << '\n';
 }

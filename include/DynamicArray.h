@@ -54,6 +54,20 @@ public:
         return data[index];
     }
 
+    T& operator[](std::size_t index) {
+        if (index >= size) {
+            throw std::out_of_range("Index out of range");
+        }
+        return data[index];
+    }
+
+    const T& operator[](std::size_t index) const {
+        if (index >= size) {
+            throw std::out_of_range("Index out of range");
+        }
+        return data[index];
+    }
+
     void print() const {
         std::cout << *this << '\n';
     }
@@ -74,14 +88,71 @@ public:
 
     void add(const DynamicArray& other) {
         for (std::size_t i = 0; i < std::min(size, other.size); ++i) {
-            data[i] += other.data[i];
+            set(i, data[i] + other.data[i]);
         }
     }
 
     void sub(const DynamicArray& other) {
         for (std::size_t i = 0; i < std::min(size, other.size); ++i) {
-            data[i] -= other.data[i];
+            set(i, data[i] - other.data[i]);
         }
+    }
+
+    DynamicArray& operator+=(const DynamicArray& other) {
+        add(other);
+        return *this;
+    }
+
+    DynamicArray& operator-=(const DynamicArray& other) {
+        sub(other);
+        return *this;
+    }
+
+    DynamicArray& operator+=(const T& value) {
+        for (std::size_t i = 0; i < size; ++i) {
+            set(i, data[i] + value);
+        }
+        return *this;
+    }
+
+    DynamicArray& operator-=(const T& value) {
+        for (std::size_t i = 0; i < size; ++i) {
+            set(i, data[i] - value);
+        }
+        return *this;
+    }
+
+    bool operator==(const DynamicArray& other) const {
+        if (size != other.size) {
+            return false;
+        }
+
+        for (std::size_t i = 0; i < size; ++i) {
+            if (data[i] != other.data[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    bool operator!=(const DynamicArray& other) const {
+        return !(*this == other);
+    }
+
+    T* begin() {
+        return data;
+    }
+
+    T* end() {
+        return data + size;
+    }
+
+    const T* begin() const {
+        return data;
+    }
+
+    const T* end() const {
+        return data + size;
     }
 
     double distance(const DynamicArray& other) const {

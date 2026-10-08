@@ -7,6 +7,7 @@
 #include <stdexcept>
 #include <type_traits>
 #include <typeinfo>
+#include <utility>
 
 template <typename T>
 class DynamicArray {
@@ -36,6 +37,36 @@ public:
         for (std::size_t i = 0; i < size; ++i) {
             data[i] = other.data[i];
         }
+    }
+
+    DynamicArray& operator=(const DynamicArray& other) {
+        if (this == &other) {
+            return *this;
+        }
+
+        DynamicArray copy(other);
+        std::swap(data, copy.data);
+        std::swap(size, copy.size);
+        return *this;
+    }
+
+    DynamicArray(DynamicArray&& other) noexcept
+        : data(other.data), size(other.size) {
+        other.data = nullptr;
+        other.size = 0;
+    }
+
+    DynamicArray& operator=(DynamicArray&& other) noexcept {
+        if (this == &other) {
+            return *this;
+        }
+
+        delete[] data;
+        data = other.data;
+        size = other.size;
+        other.data = nullptr;
+        other.size = 0;
+        return *this;
     }
 
     void set(std::size_t index, const T& value) {

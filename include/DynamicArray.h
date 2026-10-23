@@ -50,13 +50,13 @@ public:
         return *this;
     }
 
-    DynamicArray(DynamicArray&& other) noexcept
+    DynamicArray(DynamicArray&& other)
         : data(other.data), size(other.size) {
         other.data = nullptr;
         other.size = 0;
     }
 
-    DynamicArray& operator=(DynamicArray&& other) noexcept {
+    DynamicArray& operator=(DynamicArray&& other) {
         if (this == &other) {
             return *this;
         }
